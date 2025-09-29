@@ -1,0 +1,621 @@
+/* Основные стили */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    min-height: calc(100vh - 200px);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 30px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.back-link:hover {
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: translateX(-3px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.manga-detail {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 50px;
+}
+
+/* Левая колонка - картинка и форма */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Картинка */
+.manga-image {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.manga-image img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.manga-image img:hover {
+    transform: scale(1.03);
+}
+
+/* Форма добавления в корзину */
+.add-to-cart-form {
+    padding: 25px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.add-to-cart-form h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2d3748;
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.quantity-selector label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #4a5568;
+}
+
+.quantity-input {
+    width: 80px;
+    padding: 10px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+    background: white;
+    color: #2d3748;
+    font-weight: 600;
+    transition: border-color 0.3s ease;
+}
+
+.quantity-input:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.add-to-cart-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-to-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.add-to-cart-btn:active {
+    transform: translateY(0);
+}
+
+.add-to-cart-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Сообщение об успехе */
+.success-message {
+    margin-top: 15px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    font-size: 0.95rem;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Правая колонка - информация */
+.manga-info {
+    padding: 10px 0;
+}
+
+.manga-info h1 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin: 0 0 25px 0;
+    font-weight: 700;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Список деталей */
+.details-list {
+    margin: 30px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item strong {
+    min-width: 120px;
+    color: #667eea;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.detail-item span {
+    color: #2d3748;
+    font-weight: 500;
+    font-size: 1rem;
+    flex: 1;
+}
+
+/* Описание */
+.description {
+    margin: 30px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 16px;
+    border-left: 4px solid #667eea;
+}
+
+.description h3 {
+    color: #2d3748;
+    margin: 0 0 15px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.description p {
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Стили для секции отзывов */
+.reviews-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #e9ecef;
+}
+
+.reviews-section h2 {
+    font-size: 2.2rem;
+    color: #2d3748;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Средняя оценка */
+.average-rating {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+}
+
+.average-rating h3 {
+    margin: 0 0 10px 0;
+    color: #2d3748;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.average-rating h3 span:first-child {
+    color: #f59e0b;
+    font-weight: 700;
+}
+
+.average-rating p {
+    margin: 0;
+    color: #718096;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Форма отзыва */
+.add-review {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    border: 1px solid #e9ecef;
+}
+
+.add-review h3 {
+    margin: 0 0 25px 0;
+    color: #2d3748;
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.add-review .form-group {
+    margin-bottom: 25px;
+}
+
+.add-review label {
+    display: block;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+/* Стили для звездочек - РАБОЧАЯ ВЕРСИЯ */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse; /* Это ключевое изменение! */
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    font-size: 2.2rem;
+    color: #e2e8f0;
+    transition: all 0.2s ease;
+    padding: 0 2px;
+}
+
+/* Правильная логика с flex-direction: row-reverse */
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input[type="radio"]:checked ~ label {
+    color: #f59e0b;
+    transform: scale(1.1);
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #fcd34d;
+}
+
+.add-review textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+}
+
+.add-review textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.submit-review-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.submit-review-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Список отзывов */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.review-author {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.review-date {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.review-rating {
+    margin-bottom: 15px;
+}
+
+/* Звезды в отзывах */
+.stars {
+    display: inline-flex;
+    gap: 4px;
+    font-size: 1.3rem;
+}
+
+.stars span.filled {
+    color: #fbbf24;
+}
+
+.stars span:not(.filled) {
+    color: #e2e8f0;
+}
+
+.review-comment p {
+    margin: 0;
+    color: #4a5568;
+    line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 50px;
+    color: #718096;
+    font-style: italic;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 16px;
+    border: 1px solid #e9ecef;
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .container {
+        padding: 25px 20px;
+    }
+
+    .manga-detail {
+        grid-template-columns: 350px 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 968px) {
+    .manga-detail {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .manga-image img {
+        height: 400px;
+    }
+
+    .manga-info h1 {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    .back-link {
+        margin-bottom: 25px;
+    }
+
+    .manga-image img {
+        height: 350px;
+    }
+
+    .manga-info h1 {
+        font-size: 2rem;
+    }
+
+    .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 12px 0;
+    }
+
+    .detail-item strong {
+        min-width: auto;
+        font-size: 0.95rem;
+    }
+
+    .detail-item span {
+        font-size: 0.95rem;
+    }
+
+    .description {
+        padding: 20px;
+        margin: 25px 0;
+    }
+
+    .add-to-cart-form {
+        padding: 20px;
+    }
+
+    .quantity-selector {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .add-to-cart-btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .star-rating label {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .manga-image img {
+        height: 300px;
+    }
+
+    .manga-info h1 {
+        font-size: 1.8rem;
+    }
+
+    .description {
+        padding: 18px;
+    }
+
+    .add-to-cart-form {
+        padding: 18px;
+    }
+
+    .success-message {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .add-review {
+        padding: 20px;
+    }
+
+    .submit-review-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    .star-rating label {
+        font-size: 1.8rem;
+    }
+
+    .stars {
+        font-size: 1.1rem;
+    }
+}
+
+/* Плавные анимации */
+.star-rating label {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.manga-image img {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-to-cart-btn,
+.submit-review-btn,
+.review-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Главная страница</title>
+    <link rel="stylesheet" th:href="@{/css/main-page.css}" />
+    <link rel="stylesheet" th:href="@{/css/header-footer.css}" />
+</head>
+<body>
+<!-- Хэдер -->
+<header th:insert="~{fragments/header}"></header>
+
+<!-- Основной контент -->
+<main class="main-content">
+    <div class="page-header">
+        <h1>Манга</h1>
+
+        <!-- Форма поиска и фильтрации -->
+        <form class="filter-form" th:action="@{/}" method="get">
+            <div class="filter-container">
+                <!-- Поисковая строка -->
+                <div class="search-group">
+                    <input type="text"
+                           name="search"
+                           th:value="${searchQuery}"
+                           placeholder="Поиск по названию..."
+                           class="search-input">
+                    <button type="submit" class="search-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Фильтр по категориям -->
+                <div class="category-filter">
+                    <select name="categoryId" class="category-select">
+                        <option value="">Все категории</option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}"
+                                th:selected="${selectedCategoryId != null and selectedCategoryId == category.id}">
+                        </option>
+                    </select>
+                    <button type="submit" class="filter-button">Применить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Сообщения - ИСПРАВЛЕННЫЙ СИНТАКСИС -->
+    <div th:if="${#lists.isEmpty(mangas)}" class="no-results">
+        <p th:if="${searchQuery != null and not #strings.isEmpty(searchQuery)}">
+            По запросу "<span th:text="${searchQuery}"></span>" ничего не найдено
+        </p>
+        <p th:if="${selectedCategoryId != null}">
+            В выбранной категории пока нет манги
+        </p>
+        <p th:if="${(searchQuery == null or #strings.isEmpty(searchQuery)) and selectedCategoryId == null}">
+            Нет доступной манги
+        </p>
+    </div>
+
+    <!-- Карточки манги -->
+    <div class="cards">
+        <a th:each="manga : ${mangas}"
+           th:href="@{/manga/__${manga.id}__}"
+           class="card-link">
+            <div class="card">
+                <div class="card-image-container">
+                    <img th:src="@{${manga.imageUrl}}" alt="Обложка манги" class="card-image"/>
+                </div>
+                <div class="card-body">
+                    <div class="title" th:text="${manga.title}"></div>
+                    <div class="categories" th:if="${not #lists.isEmpty(manga.categories)}">
+                            <span th:each="category : ${manga.categories}"
+                                  class="category-tag"
+                                  th:text="${category.name}">
+                            </span>
+                    </div>
+                    <div class="price" th:text="${#numbers.formatDecimal(manga.price, 0, 2)} + ' $'"></div>
+                </div>
+            </div>
+        </a>
+    </div>
+</main>
+
+<!-- Футер -->
+<footer th:insert="~{fragments/footer}"></footer>
+</body>
+</html>

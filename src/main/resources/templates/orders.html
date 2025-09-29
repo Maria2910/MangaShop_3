@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои заказы</title>
+    <link rel="stylesheet" th:href="@{/css/orders.css}">
+    <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+</head>
+<body>
+<header th:insert="~{fragments/header}"></header>
+
+<main class="orders-container">
+    <div class="orders-header">
+        <h1>Мои заказы</h1>
+        <a th:href="@{/}" class="back-link">На главную</a>
+    </div>
+
+    <!-- Сообщения об успехе/ошибке -->
+    <div th:if="${success}" class="alert alert-success">
+        <span th:text="${success}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-error">
+        <span th:text="${error}"></span>
+    </div>
+
+    <div th:if="${#lists.isEmpty(orders)}" class="empty-orders">
+        <div class="empty-icon">📦</div>
+        <h2>У вас пока нет заказов</h2>
+        <p>Совершите первую покупку в нашем магазине манги!</p>
+        <a th:href="@{/}" class="browse-btn">Перейти к покупкам</a>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(orders)}" class="orders-list">
+        <div th:each="order : ${orders}" class="order-card">
+            <div class="order-header">
+                <div class="order-info">
+                    <h3>Заказ #<span th:text="${order.id}"></span></h3>
+                    <p class="order-date" th:text="${#temporals.format(order.orderDate, 'dd.MM.yyyy HH:mm')}"></p>
+                </div>
+                <div class="order-status" th:classappend="'status-' + ${order.status.name().toLowerCase()}">
+          <span th:switch="${order.status.name()}">
+          <span th:case="'PENDING'">В обработке</span>
+          <span th:case="'PROCESSING'">Обрабатывается</span>
+          <span th:case="'SHIPPED'">Отправлен</span>
+          <span th:case="'DELIVERED'">Доставлен</span>
+          <span th:case="*">Отменен</span>
+          </span>
+                </div>
+            </div>
+
+            <div class="order-details">
+                <div class="order-items">
+                    <div th:each="item : ${order.items}" class="order-item">
+                        <img th:src="@{${item.manga.imageUrl}}" th:alt="${item.manga.title}" style="width: 50px; height: 60px; object-fit: cover; border-radius: 6px;">
+                        <div class="item-info">
+                            <h4 th:text="${item.manga.title}"></h4>
+                            <p th:text="${item.quantity} + ' × ' + ${#numbers.formatDecimal(item.price, 0, 2)} + ' $'"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Общая сумма:</span>
+                        <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 2)} + ' $'"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Способ оплаты:</span>
+                        <span th:text="${order.paymentMethod}"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Адрес доставки:</span>
+                        <span th:text="${order.shippingAddress}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="~{fragments/footer}"></footer>
+</body>
+</html>
