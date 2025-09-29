@@ -1,4 +1,3 @@
-/* Сброс отступов */
 html, body {
     margin: 0;
     padding: 0;
@@ -16,7 +15,7 @@ html, body {
     margin-bottom: 40px;
 }
 
-/* Форма фильтрации - ФИКСИРУЕМ НАЕЗДАНИЕ */
+/* Форма фильтрации - ФИКСИРУЕМ*/
 .filter-form {
     width: 100%;
     max-width: 1000px;

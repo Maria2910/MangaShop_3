@@ -28,7 +28,7 @@ public class Review {
     private User user;
 
     private String comment;
-    private Integer rating; // Просто оценка от 1 до 5
+    private Integer rating;
     private LocalDateTime createdAt;
 
     @PrePersist

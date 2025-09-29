@@ -6,7 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itis.mangashop.dto.UserUpdateRequest;
 import ru.itis.mangashop.entities.User;
+import ru.itis.mangashop.entities.Role;
 import ru.itis.mangashop.repositories.UserRepository;
+import ru.itis.mangashop.repositories.RoleRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +17,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository; // ✅ ДОБАВЛЯЕМ
 
     @Override
     public void registerUser(String username, String email, String password) {
@@ -29,6 +32,11 @@ public class UserServiceImpl implements UserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
+
+        // ✅ АВТОМАТИЧЕСКИ НАЗНАЧАЕМ РОЛЬ USER ПРИ РЕГИСТРАЦИИ
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Role ROLE_USER not found"));
+        user.getRoles().add(userRole);
 
         userRepository.save(user);
     }
@@ -65,7 +73,6 @@ public class UserServiceImpl implements UserService {
     public void updateUserProfile(String username, UserUpdateRequest updateRequest) {
         User user = findByUsername(username);
 
-        // Обновляем поля, если они не null
         if (updateRequest.getFirstName() != null) {
             user.setFirstName(updateRequest.getFirstName());
         }
@@ -79,7 +86,6 @@ public class UserServiceImpl implements UserService {
             user.setBio(updateRequest.getBio());
         }
         if (updateRequest.getEmail() != null) {
-            // Проверяем, не используется ли email другим пользователем
             if (!user.getEmail().equals(updateRequest.getEmail()) &&
                     userRepository.existsByEmail(updateRequest.getEmail())) {
                 throw new RuntimeException("Email уже используется другим пользователем");
@@ -103,5 +109,42 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(user);
+    }
+
+    @Override
+    public void assignRoleToUser(Long userId, String roleName) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+
+        if (!user.getRoles().contains(role)) {
+            user.getRoles().add(role);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void removeRoleFromUser(Long userId, String roleName) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+
+        user.getRoles().remove(role);
+        userRepository.save(user);
+    }
+
+    @Override
+    public boolean userHasRole(Long userId, String roleName) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals(roleName));
+    }
+
+    public boolean isAdmin(User user) {
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
     }
 }

@@ -12,7 +12,10 @@ public interface MangaRepository extends JpaRepository<Manga, Long> {
             "(:search IS NULL OR :search = '' OR " +
             "LOWER(m.title) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
             "LOWER(m.author) LIKE LOWER(CONCAT('%', :search, '%'))) AND " +
-            "(:categoryId IS NULL OR c.id = :categoryId)")
+            "(:categoryId IS NULL OR c.id = :categoryId) " +
+            "ORDER BY m.title ASC")
     List<Manga> findMangas(@Param("search") String search,
                            @Param("categoryId") Long categoryId);
+
+    List<Manga> findAllByOrderByIdAsc();
 }

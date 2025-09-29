@@ -12,4 +12,7 @@ public interface UserService {
     boolean existsByEmail(String email);
     void saveUser(User user);
     void updateUserProfile(String username, UserUpdateRequest updateRequest);
+    void assignRoleToUser(Long userId, String roleName);
+    void removeRoleFromUser(Long userId, String roleName);
+    boolean userHasRole(Long userId, String roleName);
 }

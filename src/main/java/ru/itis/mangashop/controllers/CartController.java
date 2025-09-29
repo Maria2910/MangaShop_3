@@ -27,7 +27,6 @@ public class CartController {
     private final MangaService mangaService;
     private final UserService userService;
 
-    // Добавление в корзину
     @PostMapping("/cart/add/{mangaId}")
     public String addToCart(@PathVariable Long mangaId,
                             @RequestParam(defaultValue = "1") Integer quantity,
@@ -51,13 +50,11 @@ public class CartController {
         model.addAttribute("cartItemsCount", cartItems.size());
         model.addAttribute("user", user);
 
-        // Добавляем DTO для формы заказа
         model.addAttribute("orderRequest", new OrderRequest());
 
         return "cart";
     }
 
-    // Обновление количества
     @PostMapping("/cart/update/{cartItemId}")
     public String updateCartItem(@PathVariable Long cartItemId,
                                  @RequestParam Integer quantity,
@@ -65,7 +62,6 @@ public class CartController {
         User user = userService.findByUsername(principal.getName());
         CartItem cartItem = cartService.getCartItemById(cartItemId);
 
-        // Проверяем, что товар принадлежит пользователю
         if (cartItem.getUser().getId().equals(user.getId())) {
             cartService.updateCartItemQuantity(cartItem, quantity);
         }
@@ -73,14 +69,12 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // Удаление из корзины
     @PostMapping("/cart/remove/{cartItemId}")
     public String removeFromCart(@PathVariable Long cartItemId,
                                  Principal principal) {
         User user = userService.findByUsername(principal.getName());
         CartItem cartItem = cartService.getCartItemById(cartItemId);
 
-        // Проверяем, что товар принадлежит пользователю
         if (cartItem.getUser().getId().equals(user.getId())) {
             cartService.removeFromCart(user, cartItem.getManga());
         }
@@ -88,7 +82,6 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // Очистка корзины
     @PostMapping("/cart/clear")
     public String clearCart(Principal principal) {
         User user = userService.findByUsername(principal.getName());

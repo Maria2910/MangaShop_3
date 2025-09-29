@@ -37,7 +37,6 @@ public class MainPageController {
                            @RequestParam(required = false) Long categoryId,
                            Model model) {
 
-        // Нормализуем search: если пустая строка, то null
         String normalizedSearch = (search != null && !search.trim().isEmpty()) ? search.trim() : null;
 
         List<Manga> mangas = mangaService.findMangas(normalizedSearch, categoryId);
@@ -61,7 +60,6 @@ public class MainPageController {
             model.addAttribute("averageRating", averageRating); // Просто число, а не Map
             model.addAttribute("reviewRequest", new ReviewRequest());
 
-            // Простая проверка - был ли отзыв
             boolean hasReviewed = false;
             if (principal != null) {
                 User user = userService.findByUsername(principal.getName());
@@ -70,7 +68,6 @@ public class MainPageController {
             model.addAttribute("hasReviewed", hasReviewed);
 
         } catch (Exception e) {
-            // В случае ошибки просто покажем страницу без отзывов
             Manga manga = mangaService.getMangaById(id);
             model.addAttribute("manga", manga);
             model.addAttribute("reviews", List.of());

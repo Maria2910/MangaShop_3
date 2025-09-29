@@ -23,14 +23,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(User user, OrderRequest orderRequest) {
-        // Получаем товары из корзины
+
         List<CartItem> cartItems = cartService.getCartItems(user);
 
         if (cartItems.isEmpty()) {
             throw new IllegalStateException("Корзина пуста");
         }
 
-        // Создаем заказ
         Order order = Order.builder()
                 .user(user)
                 .orderDate(LocalDateTime.now())
@@ -45,20 +44,16 @@ public class OrderServiceImpl implements OrderService {
 
         order = orderRepository.save(order);
 
-        // Создаем элементы заказа и обновляем количество товаров
         for (CartItem cartItem : cartItems) {
             Manga manga = cartItem.getManga();
 
-            // Проверяем доступное количество
             if (manga.getStockQuantity() < cartItem.getQuantity()) {
                 throw new IllegalStateException("Недостаточно товара: " + manga.getTitle());
             }
 
-            // Обновляем количество товара
             manga.setStockQuantity(manga.getStockQuantity() - cartItem.getQuantity());
             mangaService.saveManga(manga);
 
-            // Создаем элемент заказа
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
                     .manga(manga)
@@ -69,7 +64,6 @@ public class OrderServiceImpl implements OrderService {
             orderItemRepository.save(orderItem);
         }
 
-        // Очищаем корзину
         cartService.clearCart(user);
 
         return order;

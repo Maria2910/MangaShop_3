@@ -21,16 +21,13 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public void addToCart(User user, Manga manga, Integer quantity) {
-        // Проверяем, есть ли уже этот товар в корзине
         Optional<CartItem> existingItem = cartItemRepository.findByUserAndManga(user, manga);
 
         if (existingItem.isPresent()) {
-            // Увеличиваем количество
             CartItem item = existingItem.get();
             item.setQuantity(item.getQuantity() + quantity);
             cartItemRepository.save(item);
         } else {
-            // Добавляем новый товар
             CartItem newItem = new CartItem();
             newItem.setUser(user);
             newItem.setManga(manga);

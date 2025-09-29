@@ -14,7 +14,6 @@ public class AuthorizationController {
 
     private final UserServiceImpl userService;
 
-    // Страница логина
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error, Model model) {
         if (error != null) {
@@ -23,7 +22,6 @@ public class AuthorizationController {
         return "login";
     }
 
-    // Страница регистрации
     @GetMapping("/register")
     public String registerPage() {
         return "register";

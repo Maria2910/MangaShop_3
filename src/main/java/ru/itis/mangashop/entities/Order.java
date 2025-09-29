@@ -40,6 +40,7 @@ public class Order {
     private String shippingAddress;
     private String paymentMethod;
 
+    @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 }

@@ -34,7 +34,6 @@ public class CartItem {
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    // Автоматически устанавливаем цену при создании
     @PrePersist
     public void setPrice() {
         this.price = manga.getPrice();

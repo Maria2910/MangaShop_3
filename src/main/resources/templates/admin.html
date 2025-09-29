@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель | Магазин манги</title>
+    <link rel="stylesheet" th:href="@{/css/header-footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+
+    <!-- CSRF Token -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+<body>
+
+<header th:insert="~{fragments/header}"></header>
+
+<div class="admin-main">
+    <div class="admin-container">
+        <h1 class="admin-title">Управление мангой</h1>
+
+        <!-- Сообщения -->
+        <div th:if="${param.success}" class="admin-alert success">
+            <span th:if="${param.success[0] == 'Product updated'}">✅ Товар успешно обновлен</span>
+            <span th:if="${param.success[0] == 'Product deleted'}">🗑️ Товар успешно удален</span>
+            <span th:if="${param.success[0] == 'updated'}">✅ Товар успешно обновлен</span>
+            <span th:if="${param.success[0] == 'deleted'}">🗑️ Товар успешно удален</span>
+            <button type="button" class="admin-alert-close">&times;</button>
+        </div>
+
+        <!-- Статистика -->
+        <div class="admin-stats">
+            <div class="admin-stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number" th:text="${totalMangas}">0</div>
+                    <div class="stat-label">Всего манги</div>
+                </div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number" th:text="${inStock}">0</div>
+                    <div class="stat-label">В наличии</div>
+                </div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-number" th:text="${outOfStock}">0</div>
+                    <div class="stat-label">Нет в наличии</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Таблица -->
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Цена</th>
+                    <th>На складе</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="manga : ${mangas}">
+                    <td th:text="${manga.id}"></td>
+                    <td>
+                        <strong th:text="${manga.title}"></strong><br>
+                        <small th:text="${manga.artist}"></small>
+                    </td>
+                    <td th:text="${manga.author}"></td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" step="0.01" min="0"
+                                   th:value="${manga.price}"
+                                   th:id="'price-' + ${manga.id}"
+                                   class="admin-input price-input">
+                            <button type="button"
+                                    th:onclick="|updatePrice(${manga.id})|"
+                                    class="admin-btn save">✓</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" min="0"
+                                   th:value="${manga.stockQuantity}"
+                                   th:id="'stock-' + ${manga.id}"
+                                   class="admin-input stock-input">
+                            <button type="button"
+                                    th:onclick="|updateStock(${manga.id})|"
+                                    class="admin-btn save">✓</button>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button"
+                                th:onclick="|deleteManga(${manga.id}, this)|"
+                                class="admin-btn delete">🗑️</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Контейнер для уведомлений AJAX -->
+        <div id="ajax-notifications" class="ajax-notifications"></div>
+
+        <!-- Пустое состояние -->
+        <div th:if="${mangas.empty}" class="admin-empty">
+            <i class="fas fa-book-open"></i>
+            <h3>Манга не найдена</h3>
+            <p>Добавьте первую мангу в каталог</p>
+        </div>
+    </div>
+</div>
+
+<footer th:insert="~{fragments/footer}"></footer>
+
+<!-- Подключаем JS файл -->
+<script th:src="@{/js/admin.js}"></script>
+
+</body>
+</html>

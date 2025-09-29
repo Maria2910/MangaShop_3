@@ -12,11 +12,9 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    // Стандартные методы
     List<Order> findByUserOrderByOrderDateDesc(User user);
     List<Order> findByStatusOrderByOrderDateDesc(OrderStatus status);
 
-    // Методы с JOIN FETCH
     @Query("SELECT DISTINCT o FROM Order o " +
             "LEFT JOIN FETCH o.items i " +
             "LEFT JOIN FETCH i.manga " +
