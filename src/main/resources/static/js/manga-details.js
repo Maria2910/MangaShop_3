@@ -7,12 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let starsHtml = '';
 
-            // Полные звезды
             for (let i = 0; i < fullStars; i++) {
                 starsHtml += '<span class="filled">★</span>';
             }
 
-            // Пустые звезды
             for (let i = fullStars; i < 5; i++) {
                 starsHtml += '<span>☆</span>';
             }
