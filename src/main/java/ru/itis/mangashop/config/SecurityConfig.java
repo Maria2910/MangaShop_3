@@ -17,7 +17,6 @@ public class SecurityConfig {
 
     private final MyUserDetailsService userDetailsService;
 
-    // ✅ Явный конструктор
     public SecurityConfig(MyUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
